@@ -56,4 +56,4 @@ def read_temp(cs_no):
     else:
         return temp
 
-# GPIO.cleanup()
+GPIO.cleanup()
