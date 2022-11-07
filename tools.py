@@ -128,7 +128,7 @@ class Sensors:
         # temp = await W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, sensor_cod).get_temperature()
         try:
             # read temperature connected at CS 22
-            a = max6675.read_temp(cs)
+            temp = max6675.read_temp(cs)
             
         except Exception as err:
                 self.log("Error sampling MAXX6675", error=err)
@@ -143,7 +143,7 @@ class Sensors:
                 self.log("Error sampling W1ThermSensor", error=err)
         
         return temp
-        
+
     def log(self, message, error=None):
         timestamp = time.strftime("%Z %Y-%m-%d %H:%M:%S", time.localtime())
         if error:
