@@ -18,9 +18,9 @@ GPIO.setwarnings(False)
 db = DB()
 
 # set the pin for communicate with MAX6675
-cs = 22
-sck = 18
-so = 16
+cs = 24
+sck = 23
+so = 21
 
 class MeasureTools:
     def __init__(self):
