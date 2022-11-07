@@ -160,6 +160,6 @@ class Camino:
         self.sensors = Sensors()
 
 
-if __name__ == "__main__":
-    a = MeasureTools()
-    a.measurator()
+# if __name__ == "__main__":
+#     a = MeasureTools()
+#     a.measurator()
