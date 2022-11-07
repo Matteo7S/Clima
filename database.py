@@ -1,4 +1,3 @@
-from cv2 import mean
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
