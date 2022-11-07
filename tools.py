@@ -137,7 +137,7 @@ class Sensors:
     def get_measure_value_1_Wire(self, sensor_cod):
         # temp = await W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, sensor_cod).get_temperature()
         try:
-            temp = W1ThermSensor(Sensor.DS18B20, "0315a1e359ff").get_temperature()
+            temp = W1ThermSensor(Sensor.DS18B20, str(sensor_cod)).get_temperature()
             return temp
         except Exception as err:
                 self.log("Error sampling W1ThermSensor", error=err)
