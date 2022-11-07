@@ -36,7 +36,7 @@ class MeasureTools:
                 db.insert_measure(i["id"], temp)
                 sleep(Config["sensor_reader_sampling_time"])
             except Exception as err:
-                self.log("Error running Tools MeasureTools thread", error=err)
+                print("Error running Tools MeasureTools thread", error=err)
             
             # print(i["id"])
             # print(temp)
@@ -121,7 +121,7 @@ class Sensors:
             a = max6675.read_temp(cs)
             
         except Exception as err:
-                self.log("Error sampling MAXX6675", error=err)
+                print("Error sampling MAXX6675", error=err)
         
         return temp
 
@@ -130,7 +130,7 @@ class Sensors:
         try:
             temp = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, sensor_cod).get_temperature()
         except Exception as err:
-                self.log("Error sampling W1ThermSensor", error=err)
+                print("Error sampling W1ThermSensor", error=err)
         
         return temp
 
