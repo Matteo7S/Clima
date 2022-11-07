@@ -42,10 +42,10 @@ if "pidfile" not in Config:
     Config["pidfile_camino"] = "/var/run/caminosystem.pid"
 
 if "manager_sleep" not in Config:
-    Config["manager_sleep"] = 1
+    Config["manager_sleep"] = 10
 
 if "sensor_reader_sampling_time" not in Config:
-    Config["sensor_reader_sampling_time"] = 10
+    Config["sensor_reader_sampling_time"] = 1
 
 if "auto_start" not in Config:
     Config["auto_start"] = 1
