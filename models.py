@@ -16,7 +16,7 @@ class User(Base):
     password = Column(String)
 
     def __repr__(self):
-        return f'User {self.name}'
+        return "User {}".format(self.name)
 
 
 class Measures(Base):
@@ -29,7 +29,8 @@ class Measures(Base):
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
     def __repr__(self):
-        return f'User {self.name}'
+        return "User {}".format(self.name)
+
 
 def init():
     Base.metadata.create_all(engine)
