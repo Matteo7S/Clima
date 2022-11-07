@@ -8,7 +8,7 @@ import traceback
 from time import sleep
 import RPi.GPIO as GPIO
 
-from w1thermsensor import W1ThermSensor
+from w1thermsensor import W1ThermSensor, Sensor
 import max6675
 # import RPi.GPIO as GPIO
 # from w1thermsensor import W1ThermSensor
@@ -137,7 +137,7 @@ class Sensors:
     def get_measure_value_1_Wire(self, sensor_cod):
         # temp = await W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, sensor_cod).get_temperature()
         try:
-            temp = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, sensor_cod).get_temperature()
+            temp = W1ThermSensor(Sensor.DS18B20, sensor_cod).get_temperature()
             return temp
         except Exception as err:
                 self.log("Error sampling W1ThermSensor", error=err)
