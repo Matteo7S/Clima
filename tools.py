@@ -3,7 +3,8 @@ import numpy as np
 from datetime import datetime, timedelta
 import random
 from time import sleep
-import RPi.GPIO as GPIO import sqlite3 as db import datetime import time
+import RPi.GPIO as GPIO
+
 from w1thermsensor import W1ThermSensor
 import max6675
 # import RPi.GPIO as GPIO
