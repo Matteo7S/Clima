@@ -1,5 +1,6 @@
 
-import numpy as np
+# import numpy as np
+from statistics import mean
 from datetime import datetime, timedelta
 import random
 from time import sleep
@@ -43,7 +44,7 @@ class MeasureTools:
     def get_measure(self, sensor_id):
         ms = self.perform_measure(sensor_id)
         ms = self.clean_measure(ms)
-        measure = np.mean(ms)
+        measure = mean(ms)
         return round(measure, 1)
 
     def perform_measure(self, sensor_id):
