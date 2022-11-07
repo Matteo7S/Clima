@@ -84,6 +84,10 @@ class Sensors:
             {"id":5, "cod": "", "description": "Cappa"}
             #manca la sonda della cappa
         ]
+    
+    def find_cod_from_id(self, id):
+        s = next(item for item in self.sensors_list if item["id"] == id)
+        return s['cod']
 
     def get_sensor_from_id(self, id):
         for sensor in self.sensors_list:
@@ -110,7 +114,7 @@ class Sensors:
 
     def get_measure_1_Wire(self,id):
         # cod = self.get_sensor_from_id(id)
-        cod=1
+        cod = self.find_cod_from_id(id)
         temp = self.get_measure_value_1_Wire(cod)
         # print("1wire: ")
         # print(temp)
@@ -137,7 +141,7 @@ class Sensors:
     def get_measure_value_1_Wire(self, sensor_cod):
         # temp = await W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, sensor_cod).get_temperature()
         try:
-            temp = W1ThermSensor(Sensor.DS18B20, str(sensor_cod)).get_temperature()
+            temp = W1ThermSensor(Sensor.DS18B20, sensor_cod).get_temperature()
             return temp
         except Exception as err:
                 self.log("Error sampling W1ThermSensor", error=err)
