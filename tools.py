@@ -3,6 +3,8 @@
 from statistics import mean
 from datetime import datetime, timedelta
 import random
+import time
+import traceback
 from time import sleep
 import RPi.GPIO as GPIO
 
@@ -36,7 +38,7 @@ class MeasureTools:
                 db.insert_measure(i["id"], temp)
                 sleep(Config["sensor_reader_sampling_time"])
             except Exception as err:
-                print("Error running Tools MeasureTools thread", error=err)
+                self.log("Error running Tools MeasureTools thread", error=err)
             
             # print(i["id"])
             # print(temp)
@@ -63,6 +65,14 @@ class MeasureTools:
     def integrity_check(self, date):
         present = datetime.now()
         return datetime.strptime(date) + timedelta(minutes=5) > present
+
+    def log(self, message, error=None):
+        timestamp = time.strftime("%Z %Y-%m-%d %H:%M:%S", time.localtime())
+        if error:
+            trace = traceback.format_exc()
+            message += "\n" + trace
+        message = timestamp + " " + message
+        print(message)
 
 class Sensors:
     def __init__(self):
@@ -121,7 +131,7 @@ class Sensors:
             a = max6675.read_temp(cs)
             
         except Exception as err:
-                print("Error sampling MAXX6675", error=err)
+                self.log("Error sampling MAXX6675", error=err)
         
         return temp
 
@@ -130,9 +140,17 @@ class Sensors:
         try:
             temp = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, sensor_cod).get_temperature()
         except Exception as err:
-                print("Error sampling W1ThermSensor", error=err)
+                self.log("Error sampling W1ThermSensor", error=err)
         
         return temp
+        
+    def log(self, message, error=None):
+        timestamp = time.strftime("%Z %Y-%m-%d %H:%M:%S", time.localtime())
+        if error:
+            trace = traceback.format_exc()
+            message += "\n" + trace
+        message = timestamp + " " + message
+        print(message)
 
 class Camino:
     def __init__(self):
