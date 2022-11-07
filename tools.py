@@ -121,7 +121,6 @@ class Sensors:
         temp = self.get_measure_value_MAXX6675(cod)
         # print("MAXX6675: ")
         # print(temp)
-
         return temp
 
     def get_measure_value_MAXX6675(self, sensor_cod):
@@ -129,20 +128,19 @@ class Sensors:
         try:
             # read temperature connected at CS 22
             temp = max6675.read_temp(cs)
-            
+            return temp
         except Exception as err:
                 self.log("Error sampling MAXX6675", error=err)
         
-        return temp
+        
 
     def get_measure_value_1_Wire(self, sensor_cod):
         # temp = await W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, sensor_cod).get_temperature()
         try:
             temp = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, sensor_cod).get_temperature()
+            return temp
         except Exception as err:
                 self.log("Error sampling W1ThermSensor", error=err)
-        
-        return temp
 
     def log(self, message, error=None):
         timestamp = time.strftime("%Z %Y-%m-%d %H:%M:%S", time.localtime())
