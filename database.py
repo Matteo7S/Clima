@@ -4,8 +4,9 @@ from sqlalchemy.orm import sessionmaker
 
 from sqlalchemy.ext.declarative import declarative_base
 from models import init, Measures
+from config import Config
 
-engine = create_engine('sqlite:///camino_db', echo=True)
+engine = create_engine('sqlite:///'+Config['dbfile'], echo=True)
 
 Session = sessionmaker(bind=engine)
 session = Session()

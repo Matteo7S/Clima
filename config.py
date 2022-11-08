@@ -46,7 +46,7 @@ if "manager_sleep" not in Config:
     Config["manager_sleep"] = 10
 
 if "sensor_reader_sampling_time" not in Config:
-    Config["sensor_reader_sampling_time"] = 1
+    Config["sensor_reader_sampling_time"] = 60
 
 if "auto_start" not in Config:
     Config["auto_start"] = 1
