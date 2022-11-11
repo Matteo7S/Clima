@@ -54,18 +54,35 @@ if "auto_start" not in Config:
 if "auto_arm" not in Config:
     Config["auto_arm"] = 1
 
-if "semsor_camino" not in Config:
-    Config["semsor_camino"] = "Camino"
+# Camino manager
 
-if "semsor_camino_in" not in Config:
-    Config["semsor_camino_in"] = "CaminoIn"
+if "camino_check_time" not in Config:
+    Config["camino_check_time"] = 1
 
-if "semsor_camino_out" not in Config:
-    Config["semsor_camino_out"] = "CaminoOut"
+if "sensor_camino" not in Config:
+    Config["sensor_camino"] = "Camino"
+
+if "sensor_camino_in" not in Config:
+    Config["sensor_camino_in"] = "CaminoIn"
+
+if "sensor_camino_out" not in Config:
+    Config["sensor_camino_out"] = "CaminoOut"
 
 if "cappa" not in Config:
     Config["Cappa"] = "Cappa"
 
+if "tMax" not in Config:
+    Config["tMax"] = 70
+
+if "tStart" not in Config:
+    Config["tStart"] = 45
+
+if "tStartToll" not in Config:
+    Config["tStartToll"] = 6
+
+#Numero di riferimenti per il calcolo della derivata
+if "numObs" not in Config:
+    Config["numObs"] = 7
 
 
 

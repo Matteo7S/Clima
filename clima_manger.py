@@ -10,10 +10,13 @@ from database import DB
 
 #import database
 
-from tools import MeasureTools
+from tools import MeasureTools, Camino
 from config import Config
+from log import Log
 
 db = DB()
+log = Log()
+camino = Camino()
 # sensori = Sensors()
 misurazioni = MeasureTools()
 
@@ -326,6 +329,8 @@ class SensorReader:
         try:
             # campiona le temperature
             # scrivo nel DB le temperature campionate
+            print('sensor funziona')
+
             temp = misurazioni.measurator()
             
         except Exception as err:
@@ -486,34 +491,6 @@ class Camino:
             #             interface_id, self.ios[io_id][slot], data)
             print("configura i sensori di temperatura")
 
-    def log(self, message, error=None, sensor_reader=False):
-        timestamp = time.strftime("%Z %Y-%m-%d %H:%M:%S", time.localtime())
-        if error:
-            trace = traceback.format_exc()
-            message += "\n" + trace
-        message = timestamp + " " + message
-        # database.write_log_camino(message, error=(error is not None), camino=camino)
-
-    # def log_state(self, states):
-    #     with closing(database.get_db()) as db:
-    #         c = db.cursor()
-    #         time_now = time.time()
-    #         states["camino"] = self.state
-    #         for state, data in states.items():
-    #             c.execute(
-    #                 "INSERT OR IGNORE INTO stateCamino (key) VALUES (:key);",
-    #                 {"key":  state})
-    #             c.execute(
-    #                 "UPDATE state SET "
-    #                 "data = :data, "
-    #                 "state_time = :time "
-    #                 "WHERE key = :key;",
-    #                 {
-    #                     "key":  state,
-    #                     "data": json.dumps(data),
-    #                     "time": time_now})
-    #         db.commit()
-
     def stop(self):
         if self._running:
             if self.thread is not None:
@@ -545,15 +522,15 @@ class Camino:
     def run(self):
         try:
             if not self._configured:
-                raise RuntimeError("SensorReader system has no configuration")
+                raise RuntimeError("Camino system has no configuration")
             if self.ios is None:
-                raise RuntimeError("No ios configured")
+                raise RuntimeError("No Camino ios configured")
             if self.interfaces is None:
-                raise RuntimeError("No interfaces configured")
+                raise RuntimeError("No Camino interfaces configured")
             self.main()
             
         except Exception as err:
-            self.log("Error running SensorReader main thread", error=err)
+            log.log("Error running Camino main thread", error=err)
         self._running = False
 
     def update(self):
@@ -567,21 +544,19 @@ class Camino:
         states = {}
         
         try:
-            print("passa -sensors- ad una funzione in tools che:")
-            print("recupera le ultime temperature disponibili su db")
-            print("prende decisione")
-            print("scrive nella tabella pompa di accendere/spegnere la pompa del camino")
+            camino.check_state()
         
         except Exception as err:
                 print(err)
         # self.log_state(states)
 
     def main(self):
-        self.log("SensorReader main loop starting")
+        log.log("Camino main loop starting")
         while self._running:
             self.update()
-            time.sleep(Config["sensor_reader_sampling_time"])
-        self.log("SensorReader main loop stoped")
+            print('camino funziona')
+            time.sleep(Config["camino_check_time"])
+        log.log("Camino main loop stoped")
 
     # diventerà process_temp
     # def process_switch(self, state, interface):

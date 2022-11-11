@@ -1,25 +1,28 @@
 #!/usr/bin/env python3
 # import numpy as np
+from numpy import diff
 from statistics import mean
 from datetime import datetime, timedelta
 import random
 import time
 import traceback
 from time import sleep
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 
-from w1thermsensor import W1ThermSensor, Sensor
-import max6675
+# from w1thermsensor import W1ThermSensor, Sensor
+# import max6675
 # import RPi.GPIO as GPIO
 # from w1thermsensor import W1ThermSensor
 from config import Config
 from database import DB
+from log import Log
 
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(32, GPIO.OUT)
-GPIO.setwarnings(False)
+# GPIO.setmode(GPIO.BOARD)
+# GPIO.setup(32, GPIO.OUT)
+# GPIO.setwarnings(False)
 
 db = DB()
+log = Log()
 
 # set the pin for communicate with MAX6675
 cs = 24
@@ -38,7 +41,7 @@ class MeasureTools:
                 db.insert_measure(i["id"], temp)
                 sleep(Config["sensor_reader_sampling_time"])
             except Exception as err:
-                self.log("Error running Tools MeasureTools thread", error=err)
+                log.log("Error running Tools MeasureTools thread", error=err)
             
             # print(i["id"])
             # print(temp)
@@ -66,14 +69,6 @@ class MeasureTools:
         present = datetime.now()
         return datetime.strptime(date) + timedelta(minutes=5) > present
 
-    def log(self, message, error=None):
-        timestamp = time.strftime("%Z %Y-%m-%d %H:%M:%S", time.localtime())
-        if error:
-            trace = traceback.format_exc()
-            message += "\n" + trace
-        message = timestamp + " " + message
-        print(message)
-
 class Sensors:
     def __init__(self):
         self.sensors_list = [
@@ -84,7 +79,7 @@ class Sensors:
             {"id":5, "cod": "", "description": "Cappa"}
             #manca la sonda della cappa
         ]
-        max6675.set_pin(cs, sck, so, 1)
+        # max6675.set_pin(cs, sck, so, 1)
     
     def find_cod_from_id(self, id):
         s = next(item for item in self.sensors_list if item["id"] == id)
@@ -104,13 +99,13 @@ class Sensors:
         if id == 5:
             try:
                 temp = self.get_measure_MAXX6675(id)
-            except KeyError:
-                return False
+            except Exception as err:
+                log.log("Error performing MAXX6675 measure", error=err)
         else:
             try:
                 temp = self.get_measure_1_Wire(id)
-            except KeyError:
-                return False
+            except Exception as err:
+                log.log("Error performing 1_Wire measure", error=err)
         return temp
 
     def get_measure_1_Wire(self,id):
@@ -135,7 +130,7 @@ class Sensors:
             temp = max6675.read_temp(cs)
             return temp
         except Exception as err:
-                self.log("Error sampling MAXX6675", error=err)
+                log.log("Error sampling MAXX6675", error=err)
         
         
 
@@ -145,7 +140,7 @@ class Sensors:
             temp = W1ThermSensor(Sensor.DS18B20, sensor_cod).get_temperature()
             return temp
         except Exception as err:
-                self.log("Error sampling W1ThermSensor", error=err)
+                log.log("Error sampling W1ThermSensor", error=err)
 
     def log(self, message, error=None):
         timestamp = time.strftime("%Z %Y-%m-%d %H:%M:%S", time.localtime())
@@ -158,8 +153,61 @@ class Sensors:
 class Camino:
     def __init__(self):
         self.sensors = Sensors()
+        self.measureTools = MeasureTools()
+        self.pump_state = 0
+        self.pump_id = 1
+
+    def trend(self):
+        t_cappa_array = [46,45,46] #db.get_last_t_cappa(self)
+        d_t_cappa_array = diff(t_cappa_array)
+        print(d_t_cappa_array)
+        n_of_measures = d_t_cappa_array.size
+        x = sum(1 for i in d_t_cappa_array if i >= 0 )
+        n_of_neg = n_of_measures-x
+        if n_of_neg == n_of_measures:
+            return 0
+        else:
+            return 1 
+
+    def check_state(self):
+        try:
+            t_camino = db.get_measure(1)
+            t_in = db.get_measure(4)
+            t_out = db.get_measure(3)
+            t_boiler = db.get_measure(2)
+
+        except Exception as err:
+                log.log("Error get temp from db", error=err)
+
+        if t_camino.measure >= Config["tMax"]:
+            self.pump_state = 1
+            db.insert_state(self.pump_id, 1, "t_camino >= tMax")
+            return
+        elif t_camino.measure >= Config["tStart"]:
+            if self.trend():
+                self.pump_state = 1
+                db.insert_state(self.pump_id, 1, "trend temp. cappa in crescita")
+                return
+            else:
+                if t_in.measure > t_out.measure:
+                    self.pump_state = 0
+                    db.insert_state(self.pump_id, 0, "t_in > t_out")
+                    return
+                elif t_boiler.measure > t_out.measure:
+                    self.pump_state = 0
+                    db.insert_state(self.pump_id, 0, "t_boiler > t_out")
+                    return
+                else:
+                    self.pump_state = 1
+                    db.insert_state(self.pump_id, 1, "t_out >")
+                    return
+        else: 
+            self.pump_state = 0
+            db.insert_state(self.pump_id, 0, "t_camino < tStart")
+            return
 
 
-# if __name__ == "__main__":
-#     a = MeasureTools()
-#     a.measurator()
+if __name__ == "__main__":
+    a = Camino()
+    a.check_state()
+    print(a.pump_state)
