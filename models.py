@@ -63,8 +63,8 @@ class Pumps(Base):
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
-    def __repr__(self):
-        return "Pumps {}".format(self.description)
+    # def __repr__(self):
+    #     return "Pumps {}".format(self.description)
 
 class PumpStates(Base):
     __tablename__ = 'pump_states'
@@ -76,8 +76,8 @@ class PumpStates(Base):
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
-    def __repr__(self):
-        return "PumpState {}".format(self.state)
+    # def __repr__(self):
+    #     return "PumpState {}".format(self.state)
 
 
 def init():

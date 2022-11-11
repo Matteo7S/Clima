@@ -85,5 +85,9 @@ if "numObs" not in Config:
     Config["numObs"] = 7
 
 
+# Pumps manager
+if "pumps_check_time" not in Config:
+    Config["pumps_check_time"] = 10
+
 
     

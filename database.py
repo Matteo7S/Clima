@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from sqlalchemy.ext.declarative import declarative_base
-from models import init, Measures, PumpStates
+from models import init, Measures, PumpStates, Pumps
 from config import Config
 
 engine = create_engine('sqlite:///'+Config['dbfile'], echo=True)
@@ -42,7 +42,21 @@ class DB:
         session.commit()  # Commit the change
         session.close()
 
+    def get_pump_state(self, pump_id):
+        state = session.query(PumpStates).filter_by(pump_id=pump_id).order_by(PumpStates.id.desc()).first()
+        session.close()
+        return state
+    
+    def get_pumps(self):
+        pumps = []
+        pumps = session.query(Pumps).all()
+        session.close()
+        return pumps
+
 # if __name__ == "__main__":
 #     a = DB()
-#     for i in range(1,5):
-#         a.insert_measure(i, i+30)
+#     try:
+#         pompe = a.get_pumps()
+#         print(pompe[0].description)
+#     except Exception as err:
+#         print("errore "+err)

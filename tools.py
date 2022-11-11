@@ -9,17 +9,19 @@ import traceback
 from time import sleep
 # import RPi.GPIO as GPIO
 
-# from w1thermsensor import W1ThermSensor, Sensor
-# import max6675
-# import RPi.GPIO as GPIO
-# from w1thermsensor import W1ThermSensor
+from w1thermsensor import W1ThermSensor, Sensor
+import max6675
+import RPi.GPIO as GPIO
+from w1thermsensor import W1ThermSensor
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(32, GPIO.OUT)
+GPIO.setwarnings(False)
+
 from config import Config
 from database import DB
 from log import Log
 
-# GPIO.setmode(GPIO.BOARD)
-# GPIO.setup(32, GPIO.OUT)
-# GPIO.setwarnings(False)
+
 
 db = DB()
 log = Log()
@@ -160,7 +162,6 @@ class Camino:
     def trend(self):
         t_cappa_array = [46,45,46] #db.get_last_t_cappa(self)
         d_t_cappa_array = diff(t_cappa_array)
-        print(d_t_cappa_array)
         n_of_measures = d_t_cappa_array.size
         x = sum(1 for i in d_t_cappa_array if i >= 0 )
         n_of_neg = n_of_measures-x
@@ -206,8 +207,59 @@ class Camino:
             db.insert_state(self.pump_id, 0, "t_camino < tStart")
             return
 
+#Pumps
+class Pumps:
+    def __init__(self):
+        print('figa')
+    
+    def trigger_pins(mode=GPIO.HIGH, delay=1):
+        GPIO.output(32, mode)
+        time.sleep(delay)
+    
+    def turnOn(self, pump_id):
+        try:
+            self.trigger_pins(mode=GPIO.LOW)
+        except Exception as err:
+                log.log("Error trigger pump pin LOW", error=err)
 
-if __name__ == "__main__":
-    a = Camino()
-    a.check_state()
-    print(a.pump_state)
+    def turnOff(self, pump_id):
+        try: 
+            self.trigger_pins(mode=GPIO.HIGH)
+        except Exception as err:
+                log.log("Error trigger pump pin HIGH", error=err)
+    
+    def get_pumps_state(self):
+        pumps_state = []
+        try:
+            a={}
+            pumps_list = db.get_pumps()
+            for pump in pumps_list:
+                state = db.get_pump_state(pump.id)
+                if state == None:
+                    st = 0
+                else:
+                    st = state.state
+                a = {"id":pump.id, "state":st}
+                pumps_state.append(a)
+            return pumps_state
+            
+        except Exception as err:
+            print(err)
+    
+    def pump_manager(self):
+        pumps_state = self.get_pumps_state()
+        for i in pumps_state:
+            if i["state"] == 1:
+                self.turnOn(i["id"])
+            else:
+                self.turnOff(i["id"])
+    
+    
+
+
+# if __name__ == "__main__":
+#     a = Pumps()
+#     ps = a.pump_manager()
+    # for i in ps:
+    #     print(i.state)
+    # print(a.pump_state)
