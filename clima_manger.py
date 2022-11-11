@@ -85,8 +85,8 @@ class SensorManager:
         signal.signal(signal.SIGHUP, self.catch_sigreload)
     
     def start_all(self, reason):
-        # self.start_sensors(reason)
-        # self.start_camino(reason)
+        self.start_sensors(reason)
+        self.start_camino(reason)
         self.start_pumps(reason)
     
     def stop_all(self, reason):
