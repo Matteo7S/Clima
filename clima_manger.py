@@ -51,11 +51,11 @@ class SensorManager:
 
     def stop_camino(self, reason):
         self.camino.stop()
-        log.log("Sensors thread stop command sent: " + reason)
+        log.log("Camino thread stop command sent: " + reason)
 
     def restart_camino(self, reason):
         self.camino.restart()
-        log.log("Sensors thread restart command sent: " + reason)
+        log.log("Camino thread restart command sent: " + reason)
     
      # Pumps manager
     def start_pumps(self, reason):
