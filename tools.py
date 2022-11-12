@@ -15,7 +15,7 @@ import RPi.GPIO as GPIO
 from w1thermsensor import W1ThermSensor
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(32, GPIO.OUT)
-GPIO.setwarnings(False)
+GPIO.setwarnings(True)
 
 from config import Config
 from database import DB
