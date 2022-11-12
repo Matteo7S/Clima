@@ -26,34 +26,34 @@ def sensors():
     resp = []
 
     camino = {
-        'id':t_camino.id,
+        'id':t_camino.sensor_id,
         'data':t_camino.time_created,
         'measure':t_camino.measure
     }
     resp.append(camino)
 
     cappa = {
-        'id':t_cappa.id,
+        'id':t_cappa.sensor_id,
         'measure':t_cappa.measure
     }
     resp.append(cappa)
 
     tin = {
-        'id':t_in.id,
+        'id':t_in.sensor_id,
         'data':t_in.time_created,
         'measure':t_in.measure
     }
     resp.append(tin)
 
     tout = {
-        'id':t_out.id,
+        'id':t_out.sensor_id,
         'data':t_out.time_created,
         'measure':t_out.measure
     }
     resp.append(tout)
 
     boiler = {
-        'id':t_boiler.id,
+        'id':t_boiler.sensor_id,
         'data':t_boiler.time_created,
         'measure':t_boiler.measure
     }
