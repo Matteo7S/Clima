@@ -106,7 +106,7 @@
                 clearTimeout(tid);
             }
         });
-        // var tid = setTimeout(todos, 3000);
+        var tid = setTimeout(todos, 3000);
         function todos() {
             get_sensors()
             tid = setTimeout(todos, 3000); // repeat myself
