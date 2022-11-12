@@ -264,9 +264,9 @@ class Pumps:
     
 
 
-if __name__ == "__main__":
-    a = Pumps()
-    a.turnOff(1)
-    sleep(2)
-    a.turnOn(1)
+# if __name__ == "__main__":
+#     a = Pumps()
+#     a.turnOff(1)
+#     sleep(2)
+#     a.turnOn(1)
     
