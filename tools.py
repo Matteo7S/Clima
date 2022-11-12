@@ -223,13 +223,17 @@ class Pumps:
         try:
             self.trigger_pins_on()
         except Exception as err:
-                log.log("Error trigger pump pin LOW", error=err)
+            print("errore on")
+            print(err)
+            log.log("Error trigger pump pin LOW", error=err)
 
     def turnOff(self, pump_id):
         try: 
             self.trigger_pins_off()
         except Exception as err:
-                log.log("Error trigger pump pin HIGH", error=err)
+            print("errore off")
+            print(err)
+            log.log("Error trigger pump pin HIGH", error=err)
     
     def get_pumps_state(self):
         pumps_state = []
