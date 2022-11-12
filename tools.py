@@ -260,9 +260,9 @@ class Pumps:
     
 
 
-# if __name__ == "__main__":
-#     a = Pumps()
-#     ps = a.pump_manager()
-    # for i in ps:
-    #     print(i.state)
-    # print(a.pump_state)
+if __name__ == "__main__":
+    a = Pumps()
+    a.turnOff(1)
+    sleep(2)
+    a.turnOn(1)
+    
