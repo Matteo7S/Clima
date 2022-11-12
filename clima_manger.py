@@ -108,7 +108,7 @@ class SensorManager:
                 self.arm_all("Auto Arm")
         while self._running:
             try:
-                print("fai o di qualcosa")
+                # print("fai o di qualcosa")
                 # log.log_state()
                 time.sleep(Config["manager_sleep"])
             except Exception as err:
@@ -344,7 +344,7 @@ class SensorReader:
             # scrivo nel DB le temperature campionate
 
             temp = misurazioni.measurator()
-            print('sensor funziona')
+            # print('sensor funziona')
             
         except Exception as err:
             print(err)
@@ -567,7 +567,7 @@ class Camino:
         log.log("Camino main loop starting")
         while self._running:
             self.update()
-            print('camino funziona')
+            # print('camino funziona')
             time.sleep(Config["camino_check_time"])
         log.log("Camino main loop stoped")
 
