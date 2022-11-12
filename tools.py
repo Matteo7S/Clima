@@ -177,35 +177,34 @@ class Camino:
             t_out = db.get_measure(3)
             t_boiler = db.get_measure(2)
 
-        except Exception as err:
-                log.log("Error get temp from db", error=err)
-
-        if t_camino.measure >= Config["tMax"]:
-            self.pump_state = 1
-            db.insert_state(self.pump_id, 1, "t_camino >= tMax")
-            return
-        elif t_camino.measure >= Config["tStart"]:
-            if self.trend():
+            if t_camino.measure >= Config["tMax"]:
                 self.pump_state = 1
-                db.insert_state(self.pump_id, 1, "trend temp. cappa in crescita")
+                db.insert_state(self.pump_id, 1, "t_camino >= tMax")
                 return
-            else:
-                if t_in.measure > t_out.measure:
-                    self.pump_state = 0
-                    db.insert_state(self.pump_id, 0, "t_in > t_out")
-                    return
-                elif t_boiler.measure > t_out.measure:
-                    self.pump_state = 0
-                    db.insert_state(self.pump_id, 0, "t_boiler > t_out")
+            elif t_camino.measure >= Config["tStart"]:
+                if self.trend():
+                    self.pump_state = 1
+                    db.insert_state(self.pump_id, 1, "trend temp. cappa in crescita")
                     return
                 else:
-                    self.pump_state = 1
-                    db.insert_state(self.pump_id, 1, "t_out >")
-                    return
-        else: 
-            self.pump_state = 0
-            db.insert_state(self.pump_id, 0, "t_camino < tStart")
-            return
+                    if t_in.measure > t_out.measure:
+                        self.pump_state = 0
+                        db.insert_state(self.pump_id, 0, "t_in > t_out")
+                        return
+                    elif t_boiler.measure > t_out.measure:
+                        self.pump_state = 0
+                        db.insert_state(self.pump_id, 0, "t_boiler > t_out")
+                        return
+                    else:
+                        self.pump_state = 1
+                        db.insert_state(self.pump_id, 1, "t_out >")
+                        return
+            else: 
+                self.pump_state = 0
+                db.insert_state(self.pump_id, 0, "t_camino < tStart")
+                return
+        except Exception as err:
+                log.log("Error get temp from db", error=err)
 
 #Pumps
 class Pumps:

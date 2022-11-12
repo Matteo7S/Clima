@@ -21,6 +21,9 @@ del app_path
 if "dbfile" not in Config:
     Config["dbfile"] = "home.db"
 
+if "dbfile" not in Config:
+    Config["dbfile_path"] = ""
+
 if "host" not in Config:
     Config["host"] = "0.0.0.0"
 
