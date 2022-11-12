@@ -342,9 +342,9 @@ class SensorReader:
         try:
             # campiona le temperature
             # scrivo nel DB le temperature campionate
-            print('sensor funziona')
 
             temp = misurazioni.measurator()
+            print('sensor funziona')
             
         except Exception as err:
             print(err)

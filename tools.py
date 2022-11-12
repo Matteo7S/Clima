@@ -41,7 +41,7 @@ class MeasureTools:
             try:
                 temp = self.get_measure(i["id"])
                 db.insert_measure(i["id"], temp)
-                sleep(Config["sensor_reader_sampling_time"])
+                sleep(2)
             except Exception as err:
                 log.log("Error running Tools MeasureTools thread", error=err)
             
