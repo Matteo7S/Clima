@@ -53,18 +53,19 @@ class DB:
         session.close()
         return pumps
     
-    def insert_log(self, message):
+    def insert_log(self, message,error):
         log = Log(
-            message = message
+            message = message,
+            error = error
         )
-        session.add(log)  # Add the measure
-        session.commit()  # Commit the change
+        session.add(log)  
+        session.commit()  
         session.close()
 
 # if __name__ == "__main__":
 #     a = DB()
 #     try:
-#         pompe = a.get_pumps()
-#         print(pompe[0].description)
+#         log = a.insert_log("ciuccia", "pina")
 #     except Exception as err:
-#         print("errore "+err)
+#         print("errore ")
+#         print("err")

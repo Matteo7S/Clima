@@ -83,7 +83,8 @@ class Log(Base):
     __tablename__ = 'log'
 
     id = Column(Integer, primary_key=True)
-    message = Column(String)  
+    message = Column(String)
+    error = Column(String)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
