@@ -211,19 +211,23 @@ class Pumps:
     def __init__(self):
         print('figa')
     
-    def trigger_pins(mode=GPIO.HIGH, delay=1):
-        GPIO.output(32, mode)
+    def trigger_pins_off(self, delay=1):
+        GPIO.output(32, GPIO.HIGH)
+        time.sleep(delay)
+    
+    def trigger_pins_on(self, delay=1):
+        GPIO.output(32, GPIO.LOW)
         time.sleep(delay)
     
     def turnOn(self, pump_id):
         try:
-            self.trigger_pins(mode=GPIO.LOW)
+            self.trigger_pins_on()
         except Exception as err:
                 log.log("Error trigger pump pin LOW", error=err)
 
     def turnOff(self, pump_id):
         try: 
-            self.trigger_pins(mode=GPIO.HIGH)
+            self.trigger_pins_off()
         except Exception as err:
                 log.log("Error trigger pump pin HIGH", error=err)
     

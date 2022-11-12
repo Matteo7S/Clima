@@ -23,6 +23,8 @@
     <div>
         <h1>Hello, world!</h1>
         <button class="btn" id="button">Premi</button>
+        <button class="btn" id="turnOn">Accendi</button>
+        <button class="btn" id="turnOff">Spegni</button>
     </div>
     <div>
         <table id="sensors" class="sensor_table">
@@ -75,6 +77,27 @@
 
 <script>
     (function () {
+        $("#turnon").click(function () {
+            tOn()
+        });
+        $("#turnoff").click(function () {
+            tOff()
+        });
+        function tOn() {
+            var turnOnApi = "/home/caminoon";
+            $.getJSON(sensorsAPI)
+                .done(function (data) {
+                    console.log(data)
+                })
+        }
+
+        function tOff() {
+            var turnOnApi = "/home/caminooff";
+            $.getJSON(sensorsAPI)
+                .done(function (data) {
+                    console.log(data)
+                })
+        }
         $("#button").click(function () {
             function abortTimer() { // to be called when you want to stop the timer
                 clearTimeout(tid);
@@ -83,7 +106,6 @@
         var tid = setTimeout(todos, 3000);
         function todos() {
             get_sensors()
-
             tid = setTimeout(todos, 3000); // repeat myself
         }
         var sensorsAPI = "/home/sensors";

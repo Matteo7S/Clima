@@ -3,11 +3,15 @@ import sys
 # setting path
 sys.path.append('/Users/Matteo/Sviluppo/github/Clima')
 from database import DB
+from tools import Pumps
+from log import Log
 from flask import Blueprint
 from flask import Flask, render_template
 from flask import jsonify
 
 db = DB()
+pumps = Pumps()
+log = Log()
 
 home_bp = Blueprint('home', __name__)
 
@@ -73,3 +77,21 @@ def states():
     }
 
     return jsonify(resp)
+
+@home_bp.route('/caminoon/')
+def caminoon():
+    try:
+        pumps.turnOn(1)
+        return jsonify(200)
+    except Exception as err:
+        log.log("Error trigger pump On from web", error=err)
+        return jsonify(400)
+
+@home_bp.route('/caminooff/')
+def caminooff():
+    try:
+        pumps.turnOff(1)
+        return jsonify(200)
+    except Exception as err:
+        log.log("Error trigger pump Off from web", error=err)
+        return jsonify(400)
