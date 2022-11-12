@@ -84,16 +84,18 @@
             tOff()
         });
         function tOn() {
+            console.log('accendi')
             var turnOnApi = "/home/caminoon";
-            $.getJSON(sensorsAPI)
+            $.getJSON(turnOnApi)
                 .done(function (data) {
                     console.log(data)
                 })
         }
 
         function tOff() {
-            var turnOnApi = "/home/caminooff";
-            $.getJSON(sensorsAPI)
+            console.log('spegni')
+            var turnOffApi = "/home/caminooff";
+            $.getJSON(turnOffApi)
                 .done(function (data) {
                     console.log(data)
                 })
