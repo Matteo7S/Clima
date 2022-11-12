@@ -81,7 +81,7 @@ class Sensors:
             {"id":5, "cod": "", "description": "Cappa"}
             #manca la sonda della cappa
         ]
-        # max6675.set_pin(cs, sck, so, 1)
+        max6675.set_pin(cs, sck, so, 1)
     
     def find_cod_from_id(self, id):
         s = next(item for item in self.sensors_list if item["id"] == id)
