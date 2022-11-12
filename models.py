@@ -45,7 +45,7 @@ class Measures(Base):
     __tablename__ = 'measures'
 
     id = Column(Integer, primary_key=True)
-    sensor_id = Column(String, ForeignKey("senosors.id"))  
+    sensor_id = Column(String, ForeignKey("sensors.id"))  
     measure = Column(Integer)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
