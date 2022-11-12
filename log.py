@@ -1,5 +1,8 @@
 import time
 import traceback
+from database import DB
+
+db =DB()
 
 class Log():
     def log(self, message, error=None):
@@ -8,4 +11,8 @@ class Log():
             trace = traceback.format_exc()
             message += "\n" + trace
         message = timestamp + " " + message
-        print(message)
+        try:
+            db.insert_log(message)
+            print(message)
+        except Exception as err:
+            print("Errore di log!!")

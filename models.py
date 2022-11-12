@@ -30,7 +30,7 @@ class User(Base):
         return "User {}".format(self.name)
 
 class Sensors(Base):
-    __tablename__ = 'senosors'
+    __tablename__ = 'sensors'
 
     id = Column(Integer, primary_key=True)
     cod = Column(String)
@@ -78,6 +78,14 @@ class PumpStates(Base):
 
     # def __repr__(self):
     #     return "PumpState {}".format(self.state)
+
+class Log(Base):
+    __tablename__ = 'log'
+
+    id = Column(Integer, primary_key=True)
+    message = Column(String)  
+    time_created = Column(DateTime(timezone=True), server_default=func.now())
+    time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
 
 def init():

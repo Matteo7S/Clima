@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from sqlalchemy.ext.declarative import declarative_base
-from models import init, Measures, PumpStates, Pumps
+from models import init, Measures, PumpStates, Pumps, Log
 from config import Config
 
 engine = create_engine('sqlite:///'+Config['dbfile'], echo=True)
@@ -52,6 +52,14 @@ class DB:
         pumps = session.query(Pumps).all()
         session.close()
         return pumps
+    
+    def insert_log(self, message):
+        log = Log(
+            message = message
+        )
+        session.add(log)  # Add the measure
+        session.commit()  # Commit the change
+        session.close()
 
 # if __name__ == "__main__":
 #     a = DB()
