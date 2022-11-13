@@ -9,6 +9,8 @@ from config import Config
 
 from sqlalchemy.ext.declarative import as_declarative
 
+from database import engine
+
 # engine = create_engine('sqlite:///'+Config['dbfile']) #echo=True
 
 # Base = declarative_base()
