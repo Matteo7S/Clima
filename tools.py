@@ -214,28 +214,24 @@ class Pumps:
     def trigger_pins_off(self, delay=1):
         GPIO.output(32, GPIO.HIGH)
         time.sleep(delay)
-        log.log("Qualcuno ha spento", error=err)
-
     
     def trigger_pins_on(self, delay=1):
         GPIO.output(32, GPIO.LOW)
         time.sleep(delay)
-        log.log("Qualcuno ha acceso", error=err)
-
     
     def turnOn(self, pump_id):
         try:
             self.trigger_pins_on()
         except Exception as err:
-            print("errore on")
-            log.log("Error trigger pump pin LOW", error=err)
+            # log.log("Error trigger pump pin LOW", error=err)
+            pass
 
     def turnOff(self, pump_id):
         try: 
             self.trigger_pins_off()
         except Exception as err:
-            print("errore off")
-            log.log("Error trigger pump pin HIGH", error=err)
+            # log.log("Error trigger pump pin HIGH", error=err)
+            pass
     
     def get_pumps_state(self):
         pumps_state = []
@@ -253,8 +249,6 @@ class Pumps:
             return pumps_state
             
         except Exception as err:
-            print("errore off")
-            print(err)
             log.log("Error trigger pump pin HIGH", error=err)
     
     def pump_manager(self):
