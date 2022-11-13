@@ -144,14 +144,6 @@ class Sensors:
         except Exception as err:
                 log.log("Error sampling W1ThermSensor", error=err)
 
-    def log(self, message, error=None):
-        timestamp = time.strftime("%Z %Y-%m-%d %H:%M:%S", time.localtime())
-        if error:
-            trace = traceback.format_exc()
-            message += "\n" + trace
-        message = timestamp + " " + message
-        print(message)
-
 class Camino:
     def __init__(self):
         self.sensors = Sensors()

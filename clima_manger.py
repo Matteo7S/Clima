@@ -347,8 +347,7 @@ class SensorReader:
             # print('sensor funziona')
             
         except Exception as err:
-            print(err)
-        # log.log_state(states)
+            log.log("Error running Sensor update", error=err)
 
     def main(self):
         log.log("SensorReader main loop starting")
@@ -560,7 +559,8 @@ class Camino:
             camino.check_state()
         
         except Exception as err:
-                print(err)
+            log.log("Error running Camino update", error=err)
+
         # log.log_state(states)
 
     def main(self):
@@ -772,11 +772,12 @@ class PumpManager:
         states = {}
         
         try:
-            print("pompee")
+            # print("pompee")
             pump_tools.pump_manager()
         
         except Exception as err:
-                print(err)
+            log.log("erroe in Pumps update")
+
         # log.log_state(states)
 
     def main(self):
