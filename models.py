@@ -12,6 +12,7 @@ from sqlalchemy.ext.declarative import as_declarative
 from database import engine
 
 # engine = create_engine('sqlite:///'+Config['dbfile']) #echo=True
+engine = create_engine('sqlite:///'+Config['dbfile_path']+Config['dbfile']+'?check_same_thread=False') #echo=True
 
 # Base = declarative_base()
 
