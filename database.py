@@ -6,7 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from models import init, Measures, PumpStates, Pumps, Log
 from config import Config
 
-engine = create_engine('sqlite:///'+Config['dbfile_path']+Config['dbfile']) #echo=True
+engine = create_engine('sqlite:///'+Config['dbfile_path']+Config['dbfile']+'?check_same_thread=False') #echo=True
 
 Session = sessionmaker(bind=engine)
 session = Session()

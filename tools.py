@@ -260,6 +260,7 @@ class Pumps:
     def pump_manager(self):
         pumps_state = self.get_pumps_state()
         for i in pumps_state:
+            print(i)
             if i["state"] == 1:
                 self.turnOn(i["id"])
             else:
