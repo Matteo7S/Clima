@@ -30,14 +30,14 @@ class DB:
         session.add(measure)  # Add the measure
         session.commit()  # Commit the change
         session.close()
-        session.remove()
+        Session.remove()
         return
 
     def get_measure(self, sensor_id):
         session = Session()
         measure = session.query(Measures).filter_by(sensor_id=sensor_id).order_by(Measures.id.desc()).first()
         session.close()
-        session.remove()
+        Session.remove()
         return measure
 
     def insert_state(self, pump_id, state, reason):
@@ -50,7 +50,7 @@ class DB:
         session.add(pump_states)  # Add the measure
         session.commit()  # Commit the change
         session.close()
-        session.remove()
+        Session.remove()
         return
 
 
@@ -59,7 +59,7 @@ class DB:
 
         state = session.query(PumpStates).filter_by(pump_id=pump_id).order_by(PumpStates.id.desc()).first()
         session.close()
-        session.remove()
+        Session.remove()
 
         return state
     
@@ -69,7 +69,7 @@ class DB:
         pumps = []
         pumps = session.query(Pumps).all()
         session.close()
-        session.remove()
+        Session.remove()
 
         return pumps
     
@@ -83,7 +83,7 @@ class DB:
         session.add(log)  
         session.commit()  
         session.close()
-        session.remove()
+        Session.remove()
         return
 
 # if __name__ == "__main__":
