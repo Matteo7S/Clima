@@ -6,10 +6,13 @@ from sqlalchemy.ext.declarative import declarative_base
 from models import init, Measures, PumpStates, Pumps, Log
 from config import Config
 
-engine = create_engine('sqlite:///'+Config['dbfile_path']+Config['dbfile']+'?check_same_thread=False') #echo=True
+from sqlalchemy.orm import scoped_session
+from sqlalchemy.orm import sessionmaker
 
-Session = sessionmaker(bind=engine)
-session = Session()
+engine = create_engine('sqlite:///'+Config['dbfile_path']+Config['dbfile']) #echo=True
+
+session_factory = sessionmaker(bind=engine)
+Session = scoped_session(session_factory)
 
 class DB:
     def __init__(self):
@@ -19,6 +22,7 @@ class DB:
         print('ciaone')
 
     def insert_measure(self, sensor_id, measure):
+        session = Session()
         measure = Measures(
             sensor_id = sensor_id,
             measure = measure
@@ -26,13 +30,18 @@ class DB:
         session.add(measure)  # Add the measure
         session.commit()  # Commit the change
         session.close()
+        session.remove()
+        return
 
     def get_measure(self, sensor_id):
+        session = Session()
         measure = session.query(Measures).filter_by(sensor_id=sensor_id).order_by(Measures.id.desc()).first()
         session.close()
+        session.remove()
         return measure
 
     def insert_state(self, pump_id, state, reason):
+        session = Session()
         pump_states = PumpStates(
             pump_id = pump_id,
             state = state,
@@ -41,19 +50,32 @@ class DB:
         session.add(pump_states)  # Add the measure
         session.commit()  # Commit the change
         session.close()
+        session.remove()
+        return
+
 
     def get_pump_state(self, pump_id):
+        session = Session()
+
         state = session.query(PumpStates).filter_by(pump_id=pump_id).order_by(PumpStates.id.desc()).first()
         session.close()
+        session.remove()
+
         return state
     
     def get_pumps(self):
+        session = Session()
+
         pumps = []
         pumps = session.query(Pumps).all()
         session.close()
+        session.remove()
+
         return pumps
     
     def insert_log(self, message,error):
+        session = Session()
+
         log = Log(
             message = message,
             error = error
@@ -61,6 +83,8 @@ class DB:
         session.add(log)  
         session.commit()  
         session.close()
+        session.remove()
+        return
 
 # if __name__ == "__main__":
 #     a = DB()
