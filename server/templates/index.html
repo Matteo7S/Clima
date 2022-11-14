@@ -161,6 +161,7 @@
                 format: "json"
             })
                 .done(function (data) {
+                    print(data)
                     var rows = $(".rigastate")
                     var row = $(".rigastate:first").clone()
                     if (rows.length >= 5) {
