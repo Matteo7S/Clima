@@ -73,7 +73,8 @@ def states():
     resp = {
         'id':state.id,
         'data':state.time_created,
-        'state':state.state
+        'state':state.state,
+        'reason':state.reason,
     }
 
     return jsonify(resp)
