@@ -42,7 +42,7 @@ class DB:
     
     def get_last5(self, sensor_id):
         session = Session()
-        measure = session.query(Measures).filter_by(sensor_id=sensor_id).order_by(Measures.id.desc()).limit(5)
+        measure = session.query(Measures).filter_by(sensor_id=sensor_id).order_by(Measures.id.desc()).limit(5).all()
         session.close()
         Session.remove()
         return measure
