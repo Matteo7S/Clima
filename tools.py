@@ -160,7 +160,19 @@ class Camino:
         if n_of_neg == n_of_measures:
             return 0
         else:
-            return 1 
+            return 1
+    
+    def camino_in_start_session(self):
+        try:
+            t_last5_camino = db.get_last5(1)
+            for measure in t_last5_camino:
+                if measure.measure >= Config["tStart"]:
+                    return True
+            return False
+            
+        except Exception as err:
+                log.log("Error camino_in_start_session", error=err)
+
 
     def check_state(self):
         try:
@@ -191,6 +203,10 @@ class Camino:
                         self.pump_state = 1
                         db.insert_state(self.pump_id, 1, "t_out >")
                         return
+            elif self.camino_in_start_session():
+                self.pump_state = 1
+                db.insert_state(self.pump_id, 1, "camino in start session")
+                return
             else: 
                 self.pump_state = 0
                 db.insert_state(self.pump_id, 0, "t_camino < tStart")

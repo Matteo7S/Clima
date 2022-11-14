@@ -39,6 +39,13 @@ class DB:
         session.close()
         Session.remove()
         return measure
+    
+    def get_last5(self, sensor_id):
+        session = Session()
+        measure = session.query(Measures).filter_by(sensor_id=sensor_id).order_by(Measures.id.desc()).limit(5)
+        session.close()
+        Session.remove()
+        return measure
 
     def insert_state(self, pump_id, state, reason):
         session = Session()
@@ -86,10 +93,11 @@ class DB:
         Session.remove()
         return
 
-# if __name__ == "__main__":
-#     a = DB()
-#     try:
-#         log = a.insert_log("ciuccia", "pina")
-#     except Exception as err:
-#         print("errore ")
-#         print("err")
+if __name__ == "__main__":
+    a = DB()
+    try:
+        log = a.get_last5(1)
+        print(log)
+    except Exception as err:
+        print("errore ")
+        print("err")
