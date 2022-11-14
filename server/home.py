@@ -3,7 +3,7 @@ import sys
 # setting path
 sys.path.append('/Users/Matteo/Sviluppo/github/Clima')
 from database import DB
-from tools import Pumps
+# from tools import Pumps
 from log import Log
 from flask import Blueprint
 from flask import Flask, render_template

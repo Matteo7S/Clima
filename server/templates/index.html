@@ -57,12 +57,14 @@
                 <tr>
                     <th scope="col">date</th>
                     <th scope="col">Stato</th>
+                    <th scope="col">Motivo</th>
                 </tr>
             </thead>
             <tbody>
                 <tr class="rov rigastate">
                     <th class="data" scope="row">@mdo</th>
                     <td class="state">@mdo</td>
+                    <td class="reason">@mdo</td>
                 </tr>
             </tbody>
         </table>
@@ -169,6 +171,7 @@
                     let min = d.getMinutes();
                     $(row).find('.data').text(hour + ':' + min)
                     $(row).find('.state').text(data.state)
+                    $(row).find('.reason').text(data.reason)
                     $(row).appendTo("#pumps tbody");
 
                 });

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
+import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from models import init, Measures, PumpStates, Pumps, Log
 from config import Config
@@ -93,11 +93,35 @@ class DB:
         Session.remove()
         return
 
-# if __name__ == "__main__":
-#     a = DB()
-#     try:
-#         log = a.get_last5(1)
-#         print(log)
-#     except Exception as err:
-#         print("errore ")
-#         print("err")
+    def delete_old_measure(self):
+        session = Session()
+        expiration_days = 10
+        limit = datetime.datetime.now() - datetime.timedelta(days=expiration_days)
+        # measure = session.query(Measures).filter(Measures.time_created < limit).all()
+        delete_q = Measures.__table__.delete().where(Measures.time_created < limit)
+        session.execute(delete_q)
+        session.commit()
+        session.close()
+        Session.remove()
+        return True
+
+    def delete_old_pumpstates(self):
+        session = Session()
+        expiration_days = 10
+        limit = datetime.datetime.now() - datetime.timedelta(days=expiration_days)
+        # measure = session.query(Measures).filter(Measures.time_created < limit).all()
+        delete_q = PumpStates.__table__.delete().where(PumpStates.time_created < limit)
+        session.execute(delete_q)
+        session.commit()
+        session.close()
+        Session.remove()
+        return True
+
+if __name__ == "__main__":
+    a = DB()
+    try:
+        log = a.delete_old_measure()
+        print(log)
+    except Exception as err:
+        print("errore ")
+        print("err")

@@ -6,14 +6,11 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.types import Integer, Text, String, DateTime
 from sqlalchemy.orm import relationship
 from config import Config
-
+import datetime
 from sqlalchemy.ext.declarative import as_declarative
-
 # engine = create_engine('sqlite:///'+Config['dbfile']) #echo=True
 engine = create_engine('sqlite:///'+Config['dbfile_path']+Config['dbfile']+'?check_same_thread=False') #echo=True
-
 # Base = declarative_base()
-
 @as_declarative()
 class Base:
     def _asdict(self):
@@ -50,6 +47,7 @@ class Measures(Base):
     measure = Column(Integer)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
+
 
     # def __repr__(self):
     #     return "".format(self.sensor_id, self.measure, self.time_created)
