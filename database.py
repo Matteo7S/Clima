@@ -93,11 +93,11 @@ class DB:
         Session.remove()
         return
 
-if __name__ == "__main__":
-    a = DB()
-    try:
-        log = a.get_last5(1)
-        print(log)
-    except Exception as err:
-        print("errore ")
-        print("err")
+# if __name__ == "__main__":
+#     a = DB()
+#     try:
+#         log = a.get_last5(1)
+#         print(log)
+#     except Exception as err:
+#         print("errore ")
+#         print("err")
