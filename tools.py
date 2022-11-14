@@ -270,8 +270,8 @@ class Pumps:
     
 
 
-if __name__ == "__main__":
-    a = Camino()
-    print(a.camino_in_start_session())
+# if __name__ == "__main__":
+#     a = Camino()
+#     print(a.camino_in_start_session())
     
     
