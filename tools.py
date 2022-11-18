@@ -169,7 +169,7 @@ class Camino:
     def camino_in_start_session(self):
         try:
             t_cappa = db.get_measure(5)
-            if t_cappa >= Config["t_start_session"]:
+            if t_cappa.measure >= Config["t_start_session"]:
                 t_last5_camino = db.get_last5(1)
                 for measure in t_last5_camino:
                     if measure.measure >= Config["tStart"]:
