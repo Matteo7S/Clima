@@ -152,10 +152,10 @@ class Camino:
         self.pump_id = 1
 
     def trend(self):
-        t_cappa_array = [46,45,46] #db.get_last_t_cappa(self)
+        t_cappa_array = db.get_last5(5)
         d_t_cappa_array = diff(t_cappa_array)
         n_of_measures = d_t_cappa_array.size
-        x = sum(1 for i in d_t_cappa_array if i >= 0 )
+        x = sum(1 for i in d_t_cappa_array if i > 0 )
         n_of_neg = n_of_measures-x
         if n_of_neg == n_of_measures:
             return 0
@@ -164,11 +164,15 @@ class Camino:
     
     def camino_in_start_session(self):
         try:
-            t_last5_camino = db.get_last5(1)
-            for measure in t_last5_camino:
-                if measure.measure >= Config["tStart"]:
-                    return True
-            return False
+            t_cappa = db.get_measure(5)
+            if t_cappa >= Config["t_start_session"]:
+                t_last5_camino = db.get_last5(1)
+                for measure in t_last5_camino:
+                    if measure.measure >= Config["tStart"]:
+                        return True
+                return False
+            else:
+                return False
             
         except Exception as err:
                 log.log("Error camino_in_start_session", error=err)
