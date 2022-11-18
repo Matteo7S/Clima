@@ -81,7 +81,7 @@ def states():
 @home_bp.route('/caminoon/')
 def caminoon():
     try:
-        db.insert_state(self.pump_id, 1, "start by web")
+        db.insert_state(1, 1, "start by web")
         return jsonify(200)
     except Exception as err:
         log.log("Error trigger pump On from web", error=err)
@@ -90,7 +90,7 @@ def caminoon():
 @home_bp.route('/caminooff/')
 def caminooff():
     try:
-        db.insert_state(self.pump_id, 0, "stop by web")
+        db.insert_state(1, 0, "stop by web")
         return jsonify(200)
     except Exception as err:
         log.log("Error trigger pump Off from web", error=err)
