@@ -146,17 +146,21 @@ class Sensors:
 
 class Camino:
     def __init__(self):
-        self.sensors = Sensors()
+        # self.sensors = Sensors()
         self.measureTools = MeasureTools()
         self.pump_state = 0
         self.pump_id = 1
 
     def trend(self):
-        t_cappa_array = db.get_last5(5)
+        t_cappa5 = db.get_last5(5)
+        t_cappa_array = []
+        for i in t_cappa5:
+            t_cappa_array.append(i.measure)
         d_t_cappa_array = diff(t_cappa_array)
         n_of_measures = d_t_cappa_array.size
         x = sum(1 for i in d_t_cappa_array if i > 0 )
         n_of_neg = n_of_measures-x
+
         if n_of_neg == n_of_measures:
             return 0
         else:
@@ -274,8 +278,8 @@ class Pumps:
     
 
 
-# if __name__ == "__main__":
-#     a = Camino()
-#     print(a.camino_in_start_session())
+if __name__ == "__main__":
+    a = Camino()
+    a.trend()
     
     
