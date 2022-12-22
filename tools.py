@@ -280,7 +280,8 @@ class Pumps:
 
 
 if __name__ == "__main__":
-    a = Camino()
-    a.check_state()
+    # a = Camino()
+    # a.check_state()
+    print(db.get_measure(5))
     
     
