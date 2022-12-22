@@ -188,15 +188,16 @@ class Camino:
             t_in = db.get_measure(4)
             t_out = db.get_measure(3)
             t_boiler = db.get_measure(2)
+            t_cappa = db.get_measure(5)
 
             if t_camino.measure >= Config["tMax"]:
                 self.pump_state = 1
                 db.insert_state(self.pump_id, 1, "t_camino >= tMax")
                 return
             elif t_camino.measure >= Config["tStart"]:
-                if self.trend():
+                if t_cappa >= Config["t_start_session"]: #self.trend():
                     self.pump_state = 1
-                    db.insert_state(self.pump_id, 1, "trend temp. cappa in crescita")
+                    db.insert_state(self.pump_id, 1, "braciere acceso")
                     return
                 else:
                     if t_in.measure > t_out.measure:
@@ -209,9 +210,9 @@ class Camino:
                         return
                     else:
                         self.pump_state = 1
-                        db.insert_state(self.pump_id, 1, "t_out >")
+                        db.insert_state(self.pump_id, 1, "t_out > t_boiler")
                         return
-            elif self.camino_in_start_session():
+            elif t_cappa >= Config["t_start_session"]: #self.camino_in_start_session():
                 self.pump_state = 1
                 db.insert_state(self.pump_id, 1, "camino in start session")
                 return
