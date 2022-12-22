@@ -279,8 +279,8 @@ class Pumps:
     
 
 
-# if __name__ == "__main__":
-#     a = Camino()
-#     a.trend()
+if __name__ == "__main__":
+    a = Camino()
+    a.check_state()
     
     
