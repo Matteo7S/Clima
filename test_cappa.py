@@ -1,4 +1,6 @@
 import max6675
+import time
+
 
 cs = 24
 sck = 23
@@ -16,6 +18,9 @@ def get_measure_value_MAXX6675(sensor_cod):
                 print(err)
 
 if __name__ == "__main__":
-    print(get_measure_value_MAXX6675(1))
+    while True:
+        print(get_measure_value_MAXX6675(1))
+        time.sleep(5)
+
 
     
