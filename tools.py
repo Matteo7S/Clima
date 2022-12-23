@@ -212,7 +212,7 @@ class Camino:
                         self.pump_state = 1
                         db.insert_state(self.pump_id, 1, "t_out > t_boiler")
                         return
-            elif t_cappa.measure >= Config["t_start_session"]: #self.camino_in_start_session():
+            elif self.camino_in_start_session():
                 self.pump_state = 1
                 db.insert_state(self.pump_id, 1, "camino in start session")
                 return
